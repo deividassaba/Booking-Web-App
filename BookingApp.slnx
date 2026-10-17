@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <Project Path="BookingAppBack/BookingAppBack.csproj" />
+  </Folder>
+  <Project Path="BookingAppTests/BookingAppTests.csproj" />
+</Solution>
