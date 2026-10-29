@@ -22,7 +22,7 @@ public class ReservationsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ReservationDto>>> GetReservations(
+    public async Task<ActionResult<IEnumerable<ReservationDto>>> GetReservationsAsync(
         [FromQuery] int? userId,
         [FromQuery] int? roomId,
         [FromQuery] DateOnly? fromDate,
@@ -58,13 +58,11 @@ public class ReservationsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateReservation(
+    public async Task<IActionResult> CreateReservationAsync(
     [FromBody] ReservationRequest request)
     {
         var startDate = request.StartDate;
         var endDate = request.EndDate;
-
-        
 
         var organizer = _context.Users.FirstOrDefault(u=> u.Id == request.OrganizerId);
         if (organizer == null) return BadRequest("Organizer not found");
@@ -148,9 +146,6 @@ public class ReservationsController : ControllerBase
             });
         }
 
-
-
-
         _context.Reservations.Add(new Reservation
         {
             Organizer = organizer,
@@ -162,12 +157,11 @@ public class ReservationsController : ControllerBase
         });
         await _context.SaveChangesAsync();
 
-
         return NoContent();
     }
 
     [HttpPost("{id}/cancel")]
-    public async Task<IActionResult> CancelReservation(int id)
+    public async Task<IActionResult> CancelReservationAsync(int id)
     {
         var reservation = await _context.Reservations.FindAsync(id);
         if (reservation == null) return NotFound();
@@ -176,7 +170,7 @@ public class ReservationsController : ControllerBase
         return NoContent();
     }
     [HttpPost("{id}/end")]
-    public async Task<IActionResult> EndReservation(int id)
+    public async Task<IActionResult> EndReservationAsync(int id)
     {
         var reservation = await _context.Reservations.FindAsync(id);
         if (reservation == null) return NotFound();

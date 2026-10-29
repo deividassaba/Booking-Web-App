@@ -63,110 +63,110 @@ public class ReservationsControllerTests
     }
 
     [Fact]
-    public async Task CreateReservation_UnknownOrganizer_ReturnsBadRequest()
+    public async Task CreateReservationAsync_UnknownOrganizer_ReturnsBadRequest()
     {
         var request = ValidRequest();
         request.OrganizerId = 999;
 
-        var result = await _controller.CreateReservation(request);
+        var result = await _controller.CreateReservationAsync(request);
 
         Assert.IsType<BadRequestObjectResult>(result);
     }
 
     [Fact]
-    public async Task CreateReservation_UnknownRoom_ReturnsBadRequest()
+    public async Task CreateReservationAsync_UnknownRoom_ReturnsBadRequest()
     {
         var request = ValidRequest();
         request.RoomId = 999;
 
-        var result = await _controller.CreateReservation(request);
+        var result = await _controller.CreateReservationAsync(request);
 
         Assert.IsType<BadRequestObjectResult>(result);
     }
 
     [Fact]
-    public async Task CreateReservation_DurationOverSevenDays_ReturnsBadRequest()
+    public async Task CreateReservationAsync_DurationOverSevenDays_ReturnsBadRequest()
     {
         var request = ValidRequest();
         request.EndDate = request.StartDate.AddDays(8);
 
-        var result = await _controller.CreateReservation(request);
+        var result = await _controller.CreateReservationAsync(request);
 
         Assert.IsType<BadRequestObjectResult>(result);
     }
 
     [Fact]
-    public async Task CreateReservation_StartInPast_ReturnsBadRequest()
+    public async Task CreateReservationAsync_StartInPast_ReturnsBadRequest()
     {
         var request = ValidRequest();
         request.StartDate = DateOnly.FromDateTime(DateTime.Now).AddDays(-2);
         request.EndDate = DateOnly.FromDateTime(DateTime.Now).AddDays(-1);
 
-        var result = await _controller.CreateReservation(request);
+        var result = await _controller.CreateReservationAsync(request);
 
         Assert.IsType<BadRequestObjectResult>(result);
     }
     [Fact]
-    public async Task CreateReservation_EndBeforeStart_ReturnsBadRequest()
+    public async Task CreateReservationAsync_EndBeforeStart_ReturnsBadRequest()
     {
         var request = ValidRequest();
         request.StartDate = DateOnly.FromDateTime(DateTime.Now).AddDays(3);
         request.EndDate = DateOnly.FromDateTime(DateTime.Now).AddDays(1);
 
-        var result = await _controller.CreateReservation(request);
+        var result = await _controller.CreateReservationAsync(request);
 
         Assert.IsType<BadRequestObjectResult>(result);
     }
     [Fact]
-    public async Task CreateReservation_StartToday_ReturnsBadRequest()
+    public async Task CreateReservationAsync_StartToday_ReturnsBadRequest()
     {
         var request = ValidRequest();
         request.StartDate = DateOnly.FromDateTime(DateTime.Now);
         request.EndDate = DateOnly.FromDateTime(DateTime.Now).AddDays(1);
 
-        var result = await _controller.CreateReservation(request);
+        var result = await _controller.CreateReservationAsync(request);
 
         Assert.IsType<BadRequestObjectResult>(result);
     }
     [Fact]
-    public async Task CreateReservation_StartAndEndSameDay_ReturnsSuccess()
+    public async Task CreateReservationAsync_StartAndEndSameDay_ReturnsSuccess()
     {
         var request = ValidRequest();
         request.StartDate = DateOnly.FromDateTime(DateTime.Now).AddDays(1);
         request.EndDate = DateOnly.FromDateTime(DateTime.Now).AddDays(1);
 
-        var result = await _controller.CreateReservation(request);
+        var result = await _controller.CreateReservationAsync(request);
 
         Assert.IsType<NoContentResult>(result);
     }
     [Fact]
-    public async Task CreateReservation_AttendeesExceedCapacity_ReturnsBadRequest()
+    public async Task CreateReservationAsync_AttendeesExceedCapacity_ReturnsBadRequest()
     {
         var request = ValidRequest();
         request.Attendees = 11;
 
-        var result = await _controller.CreateReservation(request);
+        var result = await _controller.CreateReservationAsync(request);
 
         Assert.IsType<BadRequestObjectResult>(result);
     }
 
     [Fact]
-    public async Task CreateReservation_InactiveRoom_ReturnsBadRequest()
+    public async Task CreateReservationAsync_InactiveRoom_ReturnsBadRequest()
     {
         var room = await _context.Rooms.FindAsync(1);
         room!.IsActive = false;
         await _context.SaveChangesAsync();
 
-        var result = await _controller.CreateReservation(ValidRequest());
+        var result = await _controller.CreateReservationAsync(ValidRequest());
 
         Assert.IsType<BadRequestObjectResult>(result);
     }
 
     [Fact]
-    public async Task CreateReservation_ValidRequest_ReturnsSuccess()
+    public async Task CreateReservationAsync_ValidRequest_ReturnsSuccess()
     {
 
-        var result = await _controller.CreateReservation(ValidRequest());
+        var result = await _controller.CreateReservationAsync(ValidRequest());
         Assert.IsType<NoContentResult>(result);
     }
 }

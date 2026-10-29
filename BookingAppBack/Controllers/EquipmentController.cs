@@ -16,7 +16,7 @@ public class EquipmentController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Equipment>>> GetEquipment()
+    public async Task<ActionResult<IEnumerable<Equipment>>> GetEquipmentAsync()
     {
         return await _context.Equipment.ToListAsync();
     }

@@ -1,6 +1,7 @@
 using BookingAppBack.Data;
 using BookingAppBack.DTOs;
 using BookingAppBack.Enums;
+using BookingAppBack.Reports;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
@@ -18,7 +19,7 @@ public class RoomsController : ControllerBase
     }
 
     [HttpGet()]
-    public async Task<ActionResult<IEnumerable<RoomDto>>> GetRooms(
+    public async Task<ActionResult<IEnumerable<RoomDto>>> GetRoomsAsync(
     [FromQuery] string? name,
     [FromQuery] int? minCapacity,
     [FromQuery] int? floor,
@@ -57,7 +58,7 @@ public class RoomsController : ControllerBase
     }
     
     [HttpGet("{id}")]
-    public async Task<ActionResult<RoomExtendedDto>> GetRoom(int id)
+    public async Task<ActionResult<RoomExtendedDto>> GetRoomAsync(int id)
     {
         var room = await _context.Rooms
             .Include(r => r.Reservations)
@@ -93,7 +94,7 @@ public class RoomsController : ControllerBase
         };
     }
     [HttpGet("{id}/report")]
-    public async Task<IActionResult> GetRoomReport(int id)
+    public async Task<IActionResult> GetRoomReportAsync(int id)
     {
         var room = await _context.Rooms
             .Include(r => r.Reservations)
