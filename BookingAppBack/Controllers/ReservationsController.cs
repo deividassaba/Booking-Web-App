@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
+namespace BookingAppBack.Controllers;
+
 [Route("api/[controller]")]
 [ApiController]
 public class ReservationsController : ControllerBase

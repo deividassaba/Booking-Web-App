@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
 
+namespace BookingAppBack.Controllers;
+
 [Route("api/[controller]")]
 [ApiController]
 public class RoomsController : ControllerBase

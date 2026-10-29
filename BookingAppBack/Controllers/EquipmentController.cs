@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using BookingAppBack.Models;
 using BookingAppBack.Data;
 
+namespace BookingAppBack.Controllers;
+
 [Route("api/[controller]")]
 [ApiController]
 public class EquipmentController : ControllerBase

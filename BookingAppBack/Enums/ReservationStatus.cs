@@ -1,10 +1,9 @@
-﻿namespace BookingAppBack.Enums
+﻿namespace BookingAppBack.Enums;
+
+public enum ReservationStatus
 {
-    public enum ReservationStatus
-    {
-        Active, 
-        Cancelled, 
-        Booked, 
-        Completed
-    }
+    Active, 
+    Cancelled, 
+    Booked, 
+    Completed
 }

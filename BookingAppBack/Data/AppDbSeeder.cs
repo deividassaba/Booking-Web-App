@@ -1,5 +1,4 @@
-﻿using BookingAppBack.Data;
-using BookingAppBack.Models;
+﻿using BookingAppBack.Models;
 
 namespace BookingAppBack.Data;
 

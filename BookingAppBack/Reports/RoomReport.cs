@@ -2,7 +2,7 @@
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-
+namespace BookingAppBack.Reports;
 public class RoomReport : IDocument
 {
     private readonly Room _room;

@@ -2,6 +2,7 @@ using BookingAppBack.Data;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Infrastructure;
 
+
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AppDbContext") ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found.");
 
