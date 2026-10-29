@@ -6,11 +6,12 @@ using BookingAppBack.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-
+namespace BookingAppTests;
 public class ReservationsControllerTests
 {
     private readonly AppDbContext _context;
     private readonly ReservationsController _controller;
+    private readonly BookingRulesOptions _bookingRules;
 
     public ReservationsControllerTests()
     {
@@ -37,13 +38,13 @@ public class ReservationsControllerTests
         });
 
         _context.SaveChanges();
-
-        var rules = Options.Create(new BookingRulesOptions
-        {
+        _bookingRules = new BookingRulesOptions{
             MaxDurationDays = 7,
             MaxBookingHorizonDays = 90
-        });
+        };
 
+        var rules = Options.Create(_bookingRules);
+        
         _controller = new ReservationsController(_context, rules);
     }
 
@@ -149,7 +150,16 @@ public class ReservationsControllerTests
 
         Assert.IsType<BadRequestObjectResult>(result);
     }
+    [Fact]
+    public async Task CreateReservationAsync_ReservationHorizonLimitExeeded_ReturnsBadRequest()
+    {
+        var request = ValidRequest();
+        request.StartDate = request.StartDate.AddDays(_bookingRules.MaxBookingHorizonDays + 1);
+        request.EndDate = request.EndDate.AddDays(_bookingRules.MaxBookingHorizonDays + 1);
+        var result = await _controller.CreateReservationAsync(request);
 
+        Assert.IsType<BadRequestObjectResult>(result);
+    }
     [Fact]
     public async Task CreateReservationAsync_InactiveRoom_ReturnsBadRequest()
     {

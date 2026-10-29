@@ -1,4 +1,6 @@
-﻿namespace BookingAppBack.Data;
+﻿using Microsoft.Extensions.Options;
+
+namespace BookingAppBack.Data;
 
 public class BookingRulesOptions
 {

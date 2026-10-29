@@ -107,7 +107,7 @@ public class ReservationsController : ControllerBase
         }
 
         //R4
-        if (!ValiDateRange(startDate))
+        if (!ValidateDateRange(startDate))
         {
             return BadRequest(new
             {
@@ -127,7 +127,7 @@ public class ReservationsController : ControllerBase
         }
 
         //R6
-        if (!ValidateBookingHorizon(startDate))
+        if (!ValidateBookingHorizon(startDate, _bookingRules.MaxBookingHorizonDays))
         {
             return BadRequest(new
             {
@@ -200,7 +200,7 @@ public class ReservationsController : ControllerBase
             );
     }
     //R4
-    private bool ValiDateRange(DateOnly start)
+    private bool ValidateDateRange(DateOnly start)
     {
         return start > DateOnly.FromDateTime(DateTime.Now);
     }
@@ -210,9 +210,9 @@ public class ReservationsController : ControllerBase
         return room.Capacity >= attendees;
     }
     //R6
-    private bool ValidateBookingHorizon(DateOnly start)
+    private bool ValidateBookingHorizon(DateOnly start, int limit)
     {
-        return start > DateOnly.FromDateTime(DateTime.Now);
+        return start < DateOnly.FromDateTime(DateTime.Now).AddDays(limit);
     }
     //R7
     private bool ValidateActiveRoom(Room room)
